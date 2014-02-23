@@ -1,0 +1,2 @@
+include ':kwitter'
+include ':libs:[lib] viewpagerindicator'

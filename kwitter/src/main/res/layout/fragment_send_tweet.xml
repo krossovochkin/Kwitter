@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <TextView
+        android:id="@+id/char_counter_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@integer/max_tweet_char_length"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tweet_edit_text"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/char_counter_text_view"
+        android:inputType="textAutoComplete|textAutoCorrect|textCapSentences"
+        android:imeOptions="actionDone"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send_tweet"
+        android:id="@+id/send_tweet_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>

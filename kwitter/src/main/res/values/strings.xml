@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Kwitter</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="send_tweet">Tweet</string>
+    <string name="sending_tweet">Sending tweet...</string>
+    <string name="error_sendgin_tweet">Error sending tweet</string>
+    <string name="error_loading_timeline">Error loading timeline</string>
+    <string name="error_retweet">Error retweet</string>
+    <string name="error_favorite">Error favorite</string>
+
+    <string name="twitter_consumer_key">""</string>
+    <string name="twitter_consumer_secret">""</string>
+    <string name="twitter_access_token">""</string>
+    <string name="twitter_access_token_secret">""</string>
+
+</resources>
