@@ -27,22 +27,6 @@ instead of:
 
 Then build the project and you're done!
  
-# TODO: #
-New features:
- - oauth implementation inside application
- - clean color scheme
- - update timelines (by ~~pull-to-refresh~~ SwypeRefreshLayout
- - load older tweet in timelines
- - unretweet/unfavorite tweet
- - user profile (with follow/unfollow logic)
- - direct messages
- - tablet optimizations
- - screen with details about tweet (with attached images)
- - make urls in tweet clickable
- - ~~replace expand item animation by contextual action bar~~
-Issues:
- - cancel asynctasks on exit/stop
- 
 # Thanks for #
 In this project libraries were used:
  - [Twitter4j](https://github.com/yusuke/twitter4j) (working with Twitter API)
