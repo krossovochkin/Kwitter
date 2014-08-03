@@ -30,8 +30,8 @@ Then build the project and you're done!
 # TODO: #
 New features:
  - oauth implementation inside application
- - clean color sceme
- - update timelines (by pull-to-refresh (like actionbar-pulltorefresh with smoothProgressBar))
+ - clean color scheme
+ - update timelines (by ~~pull-to-refresh~~ SwypeRefreshLayout
  - load older tweet in timelines
  - unretweet/unfavorite tweet
  - user profile (with follow/unfollow logic)
@@ -39,10 +39,9 @@ New features:
  - tablet optimizations
  - screen with details about tweet (with attached images)
  - make urls in tweet clickable
+ - ~~replace expand item animation by contextual action bar~~
 Issues:
  - cancel asynctasks on exit/stop
- - close expanded list view item on scroll
- - close expanded list view item, when another list view item was expanded
  
 # Thanks for #
 In this project libraries were used:
