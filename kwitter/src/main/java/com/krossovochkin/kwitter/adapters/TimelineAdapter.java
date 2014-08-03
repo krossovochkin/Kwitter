@@ -17,7 +17,6 @@
 package com.krossovochkin.kwitter.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -26,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -79,43 +77,6 @@ public class TimelineAdapter extends ArrayAdapter<Status> {
             Picasso.with(getContext()).load(getItem(position).getUser().getBiggerProfileImageURLHttps())
                     .into(profileImage);
 
-            final Button replyButton = (Button) view.findViewById(R.id.reply_button);
-            replyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (tweetActionListener != null) {
-                        tweetActionListener.sendReplyRequest(getItem(position));
-                    } else {
-                        Log.e(TAG, "tweetActionListener in TimelineAdapter is null. Did you set it in a proper way?");
-                    }
-                }
-            });
-
-            final Button retweetButton = (Button) view.findViewById(R.id.retweet_button);
-            retweetButton.setBackgroundResource(getItem(position).isRetweetedByMe() ? R.drawable.retweet_on : R.drawable.retweet);
-            retweetButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (tweetActionListener != null) {
-                        tweetActionListener.sendRetweetRequest(retweetButton, getItem(position));
-                    } else {
-                        Log.e(TAG, "tweetActionListener in TimelineAdapter is null. Did you set it in a proper way?");
-                    }
-                }
-            });
-
-            final Button favoriteButton = (Button) view.findViewById(R.id.favorite_button);
-            favoriteButton.setBackgroundResource(getItem(position).isFavorited() ? R.drawable.favorite_on : R.drawable.favorite);
-            favoriteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (tweetActionListener != null) {
-                        tweetActionListener.sendFavoriteRequest(favoriteButton, getItem(position));
-                    } else {
-                        Log.e(TAG, "tweetActionListener in TimelineAdapter is null. Did you set it in a proper way?");
-                    }
-                }
-            });
         } else {
             Log.e(TAG, "getView failed, view is null");
         }

@@ -18,7 +18,6 @@ package com.krossovochkin.kwitter.tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Button;
 
 import com.krossovochkin.kwitter.listeners.RetweetListener;
 
@@ -35,13 +34,11 @@ public class RetweetAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
     private Twitter twitter;
     private long tweetId;
     private RetweetListener retweetListener;
-    private Button retweetButton;
 
-    public RetweetAsyncTask(Twitter twitter, Button retweetButton, long tweetId, RetweetListener retweetListener) {
+    public RetweetAsyncTask(Twitter twitter, long tweetId, RetweetListener retweetListener) {
         this.twitter = twitter;
         this.retweetListener = retweetListener;
         this.tweetId = tweetId;
-        this.retweetButton = retweetButton;
     }
 
     @Override
@@ -70,7 +67,7 @@ public class RetweetAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
 
         if(retweetListener != null) {
             if(isSuccessful) {
-                retweetListener.onRetweetSuccess(retweetButton);
+                retweetListener.onRetweetSuccess();
             } else {
                 retweetListener.onRetweetError();
             }

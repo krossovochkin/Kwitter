@@ -17,36 +17,11 @@
 package com.krossovochkin.kwitter.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.krossovochkin.kwitter.R;
-import com.krossovochkin.kwitter.adapters.TimelineAdapter;
-import com.krossovochkin.kwitter.animations.ExpandAnimation;
-import com.krossovochkin.kwitter.listeners.FavoriteListener;
-import com.krossovochkin.kwitter.listeners.GetTimelineListener;
-import com.krossovochkin.kwitter.listeners.RetweetListener;
-import com.krossovochkin.kwitter.listeners.TweetActionListener;
-import com.krossovochkin.kwitter.tasks.FavoriteAsyncTask;
 import com.krossovochkin.kwitter.tasks.GetTimelineAsyncTask;
-import com.krossovochkin.kwitter.tasks.RetweetAsyncTask;
 import com.krossovochkin.kwitter.toolbox.Constants;
 
-import java.util.List;
-
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.User;
 
 /**
  * Created by Vasya Drobushkov <vasya.drobushkov@gmail.com> on 20.02.14.

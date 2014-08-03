@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reply"
+        android:icon="@drawable/reply"
+        android:title="@string/reply"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/retweet"
+        android:icon="@drawable/retweet"
+        android:title="@string/retweet"
+        android:showAsAction="always" />
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/favorite"
+        android:title="@string/favorite"
+        android:showAsAction="always" />
+</menu>

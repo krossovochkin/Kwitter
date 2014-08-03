@@ -49,4 +49,3 @@ In this project libraries were used:
  - [Twitter4j](https://github.com/yusuke/twitter4j) (working with Twitter API)
  - [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator) (Underline indicator for view pager)
  - [Picasso](https://github.com/square/picasso) (loading by url and caching images)
- - [ListView item expand animation](https://github.com/Udinic/SmallExamples/tree/master/ExpandAnimationExample)
