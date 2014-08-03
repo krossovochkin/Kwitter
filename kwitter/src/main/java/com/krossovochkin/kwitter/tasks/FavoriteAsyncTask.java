@@ -18,7 +18,6 @@ package com.krossovochkin.kwitter.tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Button;
 
 import com.krossovochkin.kwitter.listeners.FavoriteListener;
 
@@ -35,13 +34,11 @@ public class FavoriteAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
     private Twitter twitter;
     private long tweetId;
     private FavoriteListener favoriteListener;
-    private Button favoriteButton;
 
-    public FavoriteAsyncTask(Twitter twitter, Button favoriteButton, long tweetId, FavoriteListener favoriteListener) {
+    public FavoriteAsyncTask(Twitter twitter, long tweetId, FavoriteListener favoriteListener) {
         this.twitter = twitter;
         this.favoriteListener = favoriteListener;
         this.tweetId = tweetId;
-        this.favoriteButton = favoriteButton;
     }
 
     @Override
@@ -70,7 +67,7 @@ public class FavoriteAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
 
         if(favoriteListener != null) {
             if(isSuccessful) {
-                favoriteListener.onFavoriteSuccess(favoriteButton);
+                favoriteListener.onFavoriteSuccess();
             } else {
                 favoriteListener.onFavoriteError();
             }

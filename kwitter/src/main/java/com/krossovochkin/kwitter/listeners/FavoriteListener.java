@@ -16,14 +16,12 @@
 
 package com.krossovochkin.kwitter.listeners;
 
-import android.widget.Button;
-
 /**
  * Created by Vasya Drobushkov <vasya.drobushkov@gmail.com> on 23.02.14.
  */
 public interface FavoriteListener {
 
-    public void onFavoriteSuccess(Button favoriteButton);
+    public void onFavoriteSuccess();
 
     public void onFavoriteError();
 

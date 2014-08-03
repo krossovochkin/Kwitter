@@ -16,20 +16,15 @@
 
 package com.krossovochkin.kwitter.listeners;
 
-import android.widget.Button;
-
-import twitter4j.Status;
-import twitter4j.User;
-
 /**
  * Created by Vasya Drobushkov <vasya.drobushkov@gmail.com> on 23.02.14.
  */
 public interface TweetActionListener {
 
-    public void sendReplyRequest(Status statusToReply);
+    public void sendReplyRequest(int statusToReplyIndex);
 
-    public void sendRetweetRequest(Button retweetButton, Status statusToRetweet);
+    public void sendRetweetRequest(int statusToRetweetIndex);
 
-    public void sendFavoriteRequest(Button favoriteButton, Status statusToFavorite);
+    public void sendFavoriteRequest(int statusToFavoriteIndex);
 
 }

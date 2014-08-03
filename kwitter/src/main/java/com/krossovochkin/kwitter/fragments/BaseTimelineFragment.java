@@ -18,23 +18,24 @@ package com.krossovochkin.kwitter.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.adapters.TimelineAdapter;
-import com.krossovochkin.kwitter.animations.ExpandAnimation;
 import com.krossovochkin.kwitter.listeners.FavoriteListener;
 import com.krossovochkin.kwitter.listeners.GetTimelineListener;
 import com.krossovochkin.kwitter.listeners.RetweetListener;
 import com.krossovochkin.kwitter.listeners.TweetActionListener;
 import com.krossovochkin.kwitter.tasks.FavoriteAsyncTask;
-import com.krossovochkin.kwitter.tasks.GetTimelineAsyncTask;
 import com.krossovochkin.kwitter.tasks.RetweetAsyncTask;
 import com.krossovochkin.kwitter.toolbox.Constants;
 
@@ -49,7 +50,67 @@ import twitter4j.TwitterException;
 public abstract class BaseTimelineFragment extends Fragment implements GetTimelineListener, TweetActionListener,
         RetweetListener, FavoriteListener {
 
+    private static final int NO_ITEM = -1;
+
     protected Twitter twitter = null;
+    protected boolean mIsInContextualMode = false;
+    protected int mCurrentActionItemIndex = NO_ITEM;
+    private ActionMode mCurrentActionMode = null;
+    private ListView mListView = null;
+
+    private class ActionBarCallback implements ActionMode.Callback {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            if (actionMode.getMenuInflater() != null) {
+                actionMode.getMenuInflater().inflate(R.menu.actions, menu);
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+
+            switch (menuItem.getItemId()) {
+                case R.id.reply:
+                    sendReplyRequest(mCurrentActionItemIndex);
+                    break;
+                case R.id.retweet:
+                    sendRetweetRequest(mCurrentActionItemIndex);
+                    break;
+                case R.id.favorite:
+                    sendFavoriteRequest(mCurrentActionItemIndex);
+                    break;
+                default:
+                    break;
+            }
+
+            if (mIsInContextualMode) {
+                if (mCurrentActionMode != null) {
+                    mCurrentActionMode.finish();
+                    mCurrentActionMode = null;
+                }
+
+                mIsInContextualMode = false;
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            if (mCurrentActionItemIndex != NO_ITEM) {
+                mListView.setItemChecked(mCurrentActionItemIndex, false);
+                mCurrentActionItemIndex = NO_ITEM;
+            }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,44 +144,43 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     }
 
     private void initListView(ResponseList<Status> statuses) {
-        ListView listView = (ListView) getView().findViewById(R.id.list_view);
-        listView.setAdapter(new TimelineAdapter(getActivity(), statuses, this));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView) getView().findViewById(R.id.list_view);
+        mListView.setAdapter(new TimelineAdapter(getActivity(), statuses, this));
+        mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                View toolbar = view.findViewById(R.id.toolbar);
-
-                // Creating the expand animation for the item
-                ExpandAnimation expandAnimation = new ExpandAnimation(toolbar, 500);
-
-                // Start the animation on the toolbar
-                toolbar.startAnimation(expandAnimation);
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                mCurrentActionMode = getActivity().startActionMode(new ActionBarCallback());
+                mIsInContextualMode = true;
+                mListView.setItemChecked(position, true);
+                mCurrentActionItemIndex = position;
+                return true;
             }
         });
     }
 
     @Override
-    public void sendReplyRequest(Status statusToReply) {
+    public void sendReplyRequest(int statusToReplyIndex) {
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_up, R.anim.fade_out, R.anim.fade_in, R.anim.slide_down)
                 .addToBackStack(SendTweetFragment.TAG)
-                .add(R.id.content_frame, SendTweetFragment.newInstance(statusToReply))
+                .add(R.id.content_frame, SendTweetFragment.newInstance((Status) mListView.getItemAtPosition(statusToReplyIndex)))
                 .commit();
     }
 
     @Override
-    public void sendRetweetRequest(Button retweetButton, Status statusToRetweet) {
-        new RetweetAsyncTask(twitter, retweetButton, statusToRetweet.getId(), this).execute();
+    public void sendRetweetRequest(int statusToRetweetIndex) {
+        new RetweetAsyncTask(twitter, ((Status) mListView.getItemAtPosition(statusToRetweetIndex)).getId(), this).execute();
     }
 
     @Override
-    public void sendFavoriteRequest(Button favoriteButton, Status statusToFavorite) {
-        new FavoriteAsyncTask(twitter, favoriteButton, statusToFavorite.getId(), this).execute();
+    public void sendFavoriteRequest(int statusToFavoriteIndex) {
+        new FavoriteAsyncTask(twitter, ((Status) mListView.getItemAtPosition(statusToFavoriteIndex)).getId(), this).execute();
     }
 
     @Override
-    public void onRetweetSuccess(Button retweetButton) {
-        retweetButton.setBackgroundResource(R.drawable.retweet_on);
+    public void onRetweetSuccess() {
+        Toast.makeText(getActivity(), getString(R.string.success_retweet), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -129,8 +189,8 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     }
 
     @Override
-    public void onFavoriteSuccess(Button favoriteButton) {
-        favoriteButton.setBackgroundResource(R.drawable.favorite_on);
+    public void onFavoriteSuccess() {
+        Toast.makeText(getActivity(), getString(R.string.success_favorite), Toast.LENGTH_SHORT).show();
     }
 
     @Override
