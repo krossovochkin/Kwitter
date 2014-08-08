@@ -26,12 +26,14 @@ import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.krossovochkin.kwitter.BuildConfig;
 import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.fragments.MainFragment;
 import com.krossovochkin.kwitter.listeners.SendTweetListener;
 import com.krossovochkin.kwitter.listeners.TwitterActionListener;
 import com.krossovochkin.kwitter.tasks.SendReplyAsyncTask;
 import com.krossovochkin.kwitter.tasks.SendTweetAsyncTask;
+import com.krossovochkin.kwitter.toolbox.Settings;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -98,16 +100,23 @@ public class MainActivity extends FragmentActivity implements TwitterActionListe
     }
 
     private void initTwitter() {
-        ConfigurationBuilder cb = new ConfigurationBuilder();
+        boolean authDataExists = Settings.getBoolean(this, Settings.AUTH_DATA_EXISTS, false);
 
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(getString(R.string.twitter_consumer_key))
-                .setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret))
-                .setOAuthAccessToken(getString(R.string.twitter_access_token))
-                .setOAuthAccessTokenSecret(getString(R.string.twitter_access_token_secret));
+        if (authDataExists) {
+            ConfigurationBuilder cb = new ConfigurationBuilder();
 
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        twitter = tf.getInstance();
+            cb.setDebugEnabled(BuildConfig.DEBUG)
+                    .setOAuthConsumerKey(getString(R.string.twitter_consumer_key))
+                    .setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret))
+                    .setOAuthAccessToken(Settings.getString(this, Settings.ACCESS_TOKEN_KEY))
+                    .setOAuthAccessTokenSecret(Settings.getString(this, Settings.ACCESS_TOKEN_SECRET_KEY));
+
+            TwitterFactory tf = new TwitterFactory(cb.build());
+            twitter = tf.getInstance();
+        } else {
+            startActivity(new Intent(this, AuthActivity.class));
+            finish();
+        }
     }
 
     @Override
