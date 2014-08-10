@@ -9,8 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 
+import com.dd.CircularProgressButton;
 import com.krossovochkin.kwitter.BuildConfig;
 import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.toolbox.Settings;
@@ -39,7 +39,7 @@ public class AuthActivity extends Activity {
     private AccessToken mAccessToken;
 
     private WebView mWebView;
-    private Button mLoginButton;
+    private CircularProgressButton mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +62,12 @@ public class AuthActivity extends Activity {
 
         initTwitter();
 
-        mLoginButton = (Button) findViewById(R.id.btn_login);
+        mLoginButton = (CircularProgressButton) findViewById(R.id.btn_login);
+        mLoginButton.setIndeterminateProgressMode(true);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mLoginButton.setProgress(1); // start indeterminate
                 new TwitterAuthenticateTask().execute();
             }
         });

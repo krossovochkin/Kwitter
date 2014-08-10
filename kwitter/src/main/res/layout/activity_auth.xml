@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,11 +11,16 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
-    <Button
+    <com.dd.CircularProgressButton
         android:id="@+id/btn_login"
-        android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        app:cpb_colorIndicator="@color/main_accent_color"
+        app:cpb_colorProgress="@color/main_background"
+        app:cpb_colorIndicatorBackground="@color/main_background"
+        app:cpb_textIdle="@string/login"
+        android:layout_centerInParent="true"/>
 
-</LinearLayout>
+</RelativeLayout>
