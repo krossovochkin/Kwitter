@@ -90,9 +90,14 @@ public class MainActivity extends FragmentActivity implements TwitterActionListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            showSettingsActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSettingsActivity() {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     private void init() {

@@ -22,14 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AuthActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="@string/oauth_scheme" android:host="@string/oauth_host"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".activities.SettingsActivity"/>
+        <activity android:name=".activities.AuthActivity"/>
+        <activity android:name="com.tundem.aboutlibraries.ui.LibsActivity"/>
     </application>
 
 </manifest>

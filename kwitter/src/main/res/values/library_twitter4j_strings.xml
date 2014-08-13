@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_twitter4j">twitter4j</string>
+    <string name="library_twitter4j_author">Yusuke Yamamoto</string>
+    <string name="library_twitter4j_libraryName">Twitter4j</string>
+    <string name="library_twitter4j_libraryDescription">Twitter4J is a Twitter API binding library for the Java language.</string>
+    <string name="library_twitter4j_libraryVersion">3.0.5</string>
+    <string name="library_twitter4j_libraryWebsite">http://twitter4j.org/en/index.html</string>
+    <string name="library_twitter4j_licenseId">apache_2_0</string>
+    <string name="library_twitter4j_isOpenSource">true</string>
+    <string name="library_twitter4j_repositoryLink">https://github.com/yusuke/twitter4j</string>
+</resources>

@@ -26,4 +26,8 @@
     <string name="favorite">Favorite</string>
     <string name="retweet">Retweet</string>
 
+    <string name="pref_libs_key">pref_libs</string>
+    <string name="pref_libs_title">Open source libraries</string>
+    <string name="pref_libs_summary">Licenses of used libraries</string>
+
 </resources>
