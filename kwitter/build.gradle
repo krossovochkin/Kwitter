@@ -1,12 +1,12 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 19
+        minSdkVersion 15
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -17,17 +17,25 @@ android {
         }
         
         debug {
-            packageNameSuffix ".debug"
+            applicationIdSuffix ".debug"
         }
     }
 }
 
 dependencies {
     compile 'org.twitter4j:twitter4j-core:3.0.5'
-    compile 'com.android.support:support-v13:+'
+
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:cardview-v7:21.0.0'
+    compile 'com.android.support:palette-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.android.support:support-annotations:21.0.0'
+    compile 'com.android.support:support-v13:21.0.0'
+    compile 'com.android.support:support-v4:21.0.0'
+
     compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.0'
     compile 'com.tundem.aboutlibraries:library:2.0.3@aar'
     
-    compile project(':libs:[lib] viewpagerindicator')
+    compile project(':libs:[lib]pagertabstrip')
 }

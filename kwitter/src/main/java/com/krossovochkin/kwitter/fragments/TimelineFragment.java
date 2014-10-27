@@ -38,7 +38,7 @@ public class TimelineFragment extends BaseTimelineFragment {
         return fragment;
     }
 
-    private TimelineFragment() {
+    public TimelineFragment() {
         // instantiate only with newInstance() method
     }
 

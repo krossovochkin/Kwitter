@@ -23,12 +23,9 @@ import android.support.v4.app.FragmentManager;
 import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.fragments.MentionsFragment;
 import com.krossovochkin.kwitter.fragments.TimelineFragment;
-import com.krossovochkin.kwitter.fragments.ViewPagerFragment;
 
 import java.util.Locale;
 
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.Twitter;
 
 /**
@@ -69,9 +66,9 @@ public class ViewPagerAdapter extends android.support.v4.app.FragmentPagerAdapte
         Locale l = Locale.getDefault();
         switch (position) {
             case 0:
-                return context.getString(R.string.title_section1).toUpperCase(l);
+                return context.getString(R.string.title_timeline).toUpperCase(l);
             case 1:
-                return context.getString(R.string.title_section2).toUpperCase(l);
+                return context.getString(R.string.title_mentions).toUpperCase(l);
         }
         return null;
     }

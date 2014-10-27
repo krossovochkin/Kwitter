@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="main_background">@android:color/black</color>
-    <color name="main_accent_color">@android:color/holo_blue_bright</color>
+    <color name="colorPrimary">#fff59d</color>
+    <color name="colorPrimaryDark">#ffeb3b</color>
+    <color name="colorSecondary">#b39ddb</color>
+    <color name="colorSecondaryDark">#673ab7</color>
 </resources>

@@ -17,9 +17,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="36sp"
-        app:cpb_colorIndicator="@color/main_accent_color"
-        app:cpb_colorProgress="@color/main_background"
-        app:cpb_colorIndicatorBackground="@color/main_background"
+        app:cpb_colorIndicator="@color/colorSecondary"
+        app:cpb_colorProgress="@color/colorSecondaryDark"
+        app:cpb_colorIndicatorBackground="@android:color/transparent"
         app:cpb_textIdle="@string/login"
         android:layout_centerInParent="true"/>
 

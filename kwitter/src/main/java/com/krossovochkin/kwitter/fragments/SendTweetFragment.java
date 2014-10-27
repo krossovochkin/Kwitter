@@ -60,7 +60,7 @@ public class SendTweetFragment extends Fragment {
         return sendTweetFragment;
     }
 
-    private SendTweetFragment() {
+    public SendTweetFragment() {
         // instantiate only with newInstance() method
     }
 

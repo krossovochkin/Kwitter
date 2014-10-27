@@ -67,7 +67,7 @@ public class TimelineAdapter extends ArrayAdapter<Status> {
                 int doubleDotPosition = text.indexOf(':', startPosition);
                 int spacePosition = text.indexOf(' ', startPosition);
                 int endPosition = (doubleDotPosition < 0 || spacePosition < doubleDotPosition) ? spacePosition : doubleDotPosition;
-                spannableString.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(android.R.color.holo_blue_bright)), startPosition, endPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorSecondaryDark)), startPosition, endPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 startPosition = text.indexOf('@', endPosition);
                 } while (startPosition > 0);
                 statusTextView.setText(spannableString);

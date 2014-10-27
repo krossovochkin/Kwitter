@@ -39,7 +39,7 @@ public class MentionsFragment extends BaseTimelineFragment {
         return fragment;
     }
 
-    private MentionsFragment() {
+    public MentionsFragment() {
         // instantiate only with newInstance() method
     }
 

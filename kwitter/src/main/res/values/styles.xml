@@ -1,8 +1,30 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="drawerArrowStyle">@style/DrawerArrowToggle</item>
+        <item name="actionOverflowButtonStyle">@style/Overflow</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+    </style>
+
+    <style name="DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/colorSecondaryDark</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/colorSecondaryDark</item>
+    </style>
+
+    <style name="Overflow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <!-- TODO: add src for deep purple icon -->
+    </style>
+
+    <style name="NavigationDrawerItem">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dp</item>
     </style>
 
 </resources>

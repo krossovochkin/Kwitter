@@ -23,6 +23,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -40,12 +44,16 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class MainActivity extends FragmentActivity implements TwitterActionListener, SendTweetListener {
+public class MainActivity extends ActionBarActivity implements TwitterActionListener, SendTweetListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
     public static final int NOTIFICATION_ID_SENDING_TWEET = 17;
     public static final int NOTIFICATION_ID_ERROR_SENDING_TWEET = 18;
+
+    private Toolbar mToolbar;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mToggle;
 
     private Twitter twitter;
 
@@ -57,6 +65,13 @@ public class MainActivity extends FragmentActivity implements TwitterActionListe
         init();
 
         showMainFragment();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        mToggle.syncState();
     }
 
     private void showMainFragment() {
@@ -101,7 +116,23 @@ public class MainActivity extends FragmentActivity implements TwitterActionListe
     }
 
     private void init() {
+        initToolbar();
         initTwitter();
+    }
+
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        mToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                mToolbar,
+                R.string.drawer_open,
+                R.string.drawer_close);
+
+        mDrawerLayout.setDrawerListener(mToggle);
+        setSupportActionBar(mToolbar);
     }
 
     private void initTwitter() {

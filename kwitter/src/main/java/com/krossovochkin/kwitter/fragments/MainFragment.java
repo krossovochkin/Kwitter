@@ -17,17 +17,17 @@
 package com.krossovochkin.kwitter.fragments;
 
 import android.os.Bundle;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.adapters.ViewPagerAdapter;
 import com.krossovochkin.kwitter.toolbox.Constants;
-import com.viewpagerindicator.LinePageIndicator;
-import com.viewpagerindicator.UnderlinePageIndicator;
 
 import twitter4j.Twitter;
 
@@ -52,7 +52,7 @@ public class MainFragment extends android.support.v4.app.Fragment {
         return fragment;
     }
 
-    private MainFragment() {
+    public MainFragment() {
         // instantiate only with newInstance() method
     }
 
@@ -70,8 +70,7 @@ public class MainFragment extends android.support.v4.app.Fragment {
         viewPager = (ViewPager) getView().findViewById(R.id.pager);
         viewPager.setAdapter(viewPagerAdapter);
 
-        UnderlinePageIndicator titleIndicator = (UnderlinePageIndicator) getView().findViewById(R.id.titles);
-        titleIndicator.setFades(false);
+        PagerSlidingTabStrip titleIndicator = (PagerSlidingTabStrip) getView().findViewById(R.id.titles);
         titleIndicator.setViewPager(viewPager);
 
         final Button sendTweetButton = (Button) getView().findViewById(R.id.send_tweet_button);

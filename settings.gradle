@@ -1,2 +1,2 @@
 include ':kwitter'
-include ':libs:[lib] viewpagerindicator'
+include ':libs:[lib]pagertabstrip'

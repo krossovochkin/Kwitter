@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">Kwitter</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_timeline">Timeline</string>
+    <string name="title_mentions">Mentions</string>
+    <string name="title_direct_messages">DM</string>
     <string name="action_settings">Settings</string>
 
     <string name="oauth_scheme">kwitter</string>
@@ -30,4 +30,6 @@
     <string name="pref_libs_title">Open source libraries</string>
     <string name="pref_libs_summary">Licenses of used libraries</string>
 
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
