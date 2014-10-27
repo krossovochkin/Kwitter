@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:descendantFocusability="blocksDescendants"
-    android:layout_margin="10dp">
-
-    <ImageView
-        android:id="@+id/user_profile_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/status_text_view"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size"
-        android:layout_toRightOf="@+id/user_profile_image"
-        android:lineSpacingMultiplier="1.1"
-        android:layout_marginLeft="10dp" />
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="@dimen/cardCornerRadius">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/user_profile_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/status_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/cardTextMarginLeft"
+                android:layout_toRightOf="@+id/user_profile_image"
+                android:lineSpacingMultiplier="1.1"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

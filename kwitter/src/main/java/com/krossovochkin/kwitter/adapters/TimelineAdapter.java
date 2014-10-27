@@ -17,6 +17,8 @@
 package com.krossovochkin.kwitter.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -32,57 +34,90 @@ import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.listeners.TweetActionListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import twitter4j.ResponseList;
 import twitter4j.Status;
 
 /**
  * Created by Vasya Drobushkov <vasya.drobushkov@gmail.com> on 20.02.14.
  */
-public class TimelineAdapter extends ArrayAdapter<Status> {
+public class TimelineAdapter extends RecyclerView.Adapter {
 
     public static final String TAG = TimelineAdapter.class.getSimpleName();
 
-    private TweetActionListener tweetActionListener;
+    private List<Status> mData = new ArrayList<Status>();
 
-    public TimelineAdapter(Context context, ResponseList<Status> statuses, TweetActionListener tweetActionListener) {
-        super(context, R.layout.list_view_item_timeline);
-        this.tweetActionListener = tweetActionListener;
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View v = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.list_view_item_timeline, viewGroup, false);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
+
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        final LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        final View view = layoutInflater.inflate(R.layout.list_view_item_timeline, parent, false);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        ViewHolder holder = (ViewHolder) viewHolder;
+        Status status = mData.get(position);
+        holder.setText(status.getText());
+        holder.setImage(status.getUser().getBiggerProfileImageURLHttps());
 
-        if (view != null) {
-            final TextView statusTextView = (TextView) view.findViewById(R.id.status_text_view);
-            String text = getItem(position).getText();
+        ((ViewHolder) viewHolder).setText(mData.get(position).getText());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    public void addAll(ResponseList<Status> statuses) {
+        mData.addAll(statuses);
+    }
+
+    public Status getItem(int position) {
+        return mData.get(position);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private View mView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+        public void setText(String text) {
+            final TextView statusTextView = (TextView) mView.findViewById(R.id.status_text_view);
             int startPosition = text.indexOf('@');
             if (startPosition < 0) {
                 statusTextView.setText(text);
             } else {
-                SpannableString spannableString = new SpannableString(getItem(position).getText());
+                SpannableString spannableString = new SpannableString(text);
                 do {
-                int doubleDotPosition = text.indexOf(':', startPosition);
-                int spacePosition = text.indexOf(' ', startPosition);
-                int endPosition = (doubleDotPosition < 0 || spacePosition < doubleDotPosition) ? spacePosition : doubleDotPosition;
-                if (endPosition == -1) {
-                    endPosition = spannableString.length();
-                }
-                spannableString.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorSecondaryDark)), startPosition, endPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                startPosition = text.indexOf('@', endPosition);
+                    int doubleDotPosition = text.indexOf(':', startPosition);
+                    int spacePosition = text.indexOf(' ', startPosition);
+                    int endPosition = (doubleDotPosition < 0 || spacePosition < doubleDotPosition) ? spacePosition : doubleDotPosition;
+                    if (endPosition == -1) {
+                        endPosition = spannableString.length();
+                    }
+                    spannableString.setSpan(new ForegroundColorSpan(mView.getContext().getResources().getColor(R.color.colorSecondaryDark)), startPosition, endPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    startPosition = text.indexOf('@', endPosition);
                 } while (startPosition > 0);
                 statusTextView.setText(spannableString);
             }
-
-            final ImageView profileImage = (ImageView) view.findViewById(R.id.user_profile_image);
-            Picasso.with(getContext()).load(getItem(position).getUser().getBiggerProfileImageURLHttps())
-                    .into(profileImage);
-
-        } else {
-            Log.e(TAG, "getView failed, view is null");
         }
 
-        return view;
+        public void setImage(String url) {
+            final ImageView profileImage = (ImageView) mView.findViewById(R.id.user_profile_image);
+            Picasso.with(mView.getContext()).load(url).into(profileImage);
+        }
+    }
+
+    public TimelineAdapter() {
+        super();
     }
 }

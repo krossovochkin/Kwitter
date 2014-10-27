@@ -8,4 +8,6 @@
     <dimen name="tweet_action_toolbar_margin">-50dp</dimen>
 
     <dimen name="navigation_drawer_width">240dp</dimen>
+    <dimen name="cardCornerRadius">4dp</dimen>
+    <dimen name="cardTextMarginLeft">10dp</dimen>
 </resources>

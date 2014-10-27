@@ -19,6 +19,8 @@ package com.krossovochkin.kwitter.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -60,9 +62,14 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     protected boolean mIsInContextualMode = false;
     protected int mCurrentActionItemIndex = NO_ITEM;
     private ActionMode mCurrentActionMode = null;
-    private ListView mListView = null;
-    private TimelineAdapter mAdapter = null;
+//    private ListView mListView = null;
+//    private TimelineAdapter mAdapter = null;
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
+
+    private RecyclerView mRecyclerView;
+    private TimelineAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     private class ActionBarCallback implements ActionMode.Callback {
 
@@ -112,7 +119,8 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
             if (mCurrentActionItemIndex != NO_ITEM) {
-                mListView.setItemChecked(mCurrentActionItemIndex, false);
+                //TODO: uncomment
+//                mListView.setItemChecked(mCurrentActionItemIndex, false);
                 mCurrentActionItemIndex = NO_ITEM;
             }
         }
@@ -161,21 +169,29 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
                 android.R.color.holo_blue_dark,
                 android.R.color.holo_orange_dark);
 
-        mAdapter = new TimelineAdapter(getActivity(), null, this);
+        mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mListView = (ListView) getView().findViewById(R.id.list_view);
-        mListView.setAdapter(mAdapter);
-        mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                mCurrentActionMode = getActivity().startActionMode(new ActionBarCallback());
-                mIsInContextualMode = true;
-                mListView.setItemChecked(position, true);
-                mCurrentActionItemIndex = position;
-                return true;
-            }
-        });
+        mAdapter = new TimelineAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+
+//        mAdapter = new TimelineAdapter(getActivity(), null, this);
+//
+//        mListView = (ListView) getView().findViewById(R.id.list_view);
+//        mListView.setAdapter(mAdapter);
+//        mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+//        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                mCurrentActionMode = getActivity().startActionMode(new ActionBarCallback());
+//                mIsInContextualMode = true;
+//                mListView.setItemChecked(position, true);
+//                mCurrentActionItemIndex = position;
+//                return true;
+//            }
+//        });
     }
 
     private void refreshListView(ResponseList<Status> statuses) {
@@ -192,18 +208,19 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
         getActivity().getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_up, R.anim.fade_out, R.anim.fade_in, R.anim.slide_down)
                 .addToBackStack(SendTweetFragment.TAG)
-                .add(R.id.content_frame, SendTweetFragment.newInstance((Status) mListView.getItemAtPosition(statusToReplyIndex)))
+                .add(R.id.content_frame, SendTweetFragment.newInstance(mAdapter.getItem(statusToReplyIndex)))
                 .commit();
     }
 
     @Override
     public void sendRetweetRequest(int statusToRetweetIndex) {
-        new RetweetAsyncTask(twitter, ((Status) mListView.getItemAtPosition(statusToRetweetIndex)).getId(), this).execute();
+
+        new RetweetAsyncTask(twitter, mAdapter.getItem(statusToRetweetIndex).getId(), this).execute();
     }
 
     @Override
     public void sendFavoriteRequest(int statusToFavoriteIndex) {
-        new FavoriteAsyncTask(twitter, ((Status) mListView.getItemAtPosition(statusToFavoriteIndex)).getId(), this).execute();
+        new FavoriteAsyncTask(twitter, mAdapter.getItem(statusToFavoriteIndex).getId(), this).execute();
     }
 
     @Override
