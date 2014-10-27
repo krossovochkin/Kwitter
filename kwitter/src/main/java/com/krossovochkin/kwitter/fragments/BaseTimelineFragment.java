@@ -18,6 +18,8 @@ package com.krossovochkin.kwitter.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +41,8 @@ import com.krossovochkin.kwitter.tasks.FavoriteAsyncTask;
 import com.krossovochkin.kwitter.tasks.RetweetAsyncTask;
 import com.krossovochkin.kwitter.toolbox.Constants;
 
+import java.util.Collections;
+
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -48,7 +52,7 @@ import twitter4j.TwitterException;
  * Created by Vasya Drobushkov <vasya.drobushkov@gmail.com> on 23.02.14.
  */
 public abstract class BaseTimelineFragment extends Fragment implements GetTimelineListener, TweetActionListener,
-        RetweetListener, FavoriteListener {
+        RetweetListener, FavoriteListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int NO_ITEM = -1;
 
@@ -57,6 +61,8 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     protected int mCurrentActionItemIndex = NO_ITEM;
     private ActionMode mCurrentActionMode = null;
     private ListView mListView = null;
+    private TimelineAdapter mAdapter = null;
+    private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
     private class ActionBarCallback implements ActionMode.Callback {
 
@@ -122,7 +128,9 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
         super.onActivityCreated(savedInstanceState);
 
         initTwitter();
+        initListView();
         sendGetTimelineRequest();
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     protected abstract void sendGetTimelineRequest();
@@ -135,17 +143,28 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
 
     @Override
     public void onGetTimelineSuccess(ResponseList<Status> statuses) {
-        initListView(statuses);
+        refreshListView(statuses);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onGetTimelineError(TwitterException exception) {
         Toast.makeText(getActivity(), R.string.error_loading_timeline, Toast.LENGTH_SHORT).show();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    private void initListView(ResponseList<Status> statuses) {
+    private void initListView() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
+                android.R.color.holo_red_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_orange_dark);
+
+        mAdapter = new TimelineAdapter(getActivity(), null, this);
+
         mListView = (ListView) getView().findViewById(R.id.list_view);
-        mListView.setAdapter(new TimelineAdapter(getActivity(), statuses, this));
+        mListView.setAdapter(mAdapter);
         mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -157,6 +176,15 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
                 return true;
             }
         });
+    }
+
+    private void refreshListView(ResponseList<Status> statuses) {
+        mAdapter.addAll(statuses);
+    }
+
+    @Override
+    public void onRefresh() {
+        sendGetTimelineRequest();
     }
 
     @Override

@@ -45,8 +45,7 @@ public class TimelineAdapter extends ArrayAdapter<Status> {
     private TweetActionListener tweetActionListener;
 
     public TimelineAdapter(Context context, ResponseList<Status> statuses, TweetActionListener tweetActionListener) {
-        super(context, R.layout.list_view_item_timeline, statuses);
-
+        super(context, R.layout.list_view_item_timeline);
         this.tweetActionListener = tweetActionListener;
     }
 
@@ -67,6 +66,9 @@ public class TimelineAdapter extends ArrayAdapter<Status> {
                 int doubleDotPosition = text.indexOf(':', startPosition);
                 int spacePosition = text.indexOf(' ', startPosition);
                 int endPosition = (doubleDotPosition < 0 || spacePosition < doubleDotPosition) ? spacePosition : doubleDotPosition;
+                if (endPosition == -1) {
+                    endPosition = spannableString.length();
+                }
                 spannableString.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.colorSecondaryDark)), startPosition, endPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 startPosition = text.indexOf('@', endPosition);
                 } while (startPosition > 0);
