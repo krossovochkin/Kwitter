@@ -162,10 +162,11 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     private void initListView() {
         mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
-                android.R.color.holo_red_dark,
-                android.R.color.holo_blue_dark,
-                android.R.color.holo_orange_dark);
+        mSwipeRefreshLayout.setColorSchemeColors(
+                getResources().getColor(R.color.colorSecondaryDark),
+                getResources().getColor(R.color.colorSecondary),
+                getResources().getColor(R.color.colorSecondaryDark),
+                getResources().getColor(R.color.colorSecondary));
 
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
