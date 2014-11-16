@@ -1,10 +1,11 @@
-# Kwitter – simple twitter client for android 4.0 and above #
+# Kwitter – social client with material like design #
 
 # Overview #
 
 Client possibilities:
  - reading last 20 tweets in timeline
  - reading last 20 tweets in mentions timeline
+ - update last 20 tweets in timelines
  - send tweet (without images)
  - reply to the tweet
  - retweet tweet
@@ -30,6 +31,8 @@ Then build the project and you're done!
 # Thanks for #
 In this project libraries were used:
  - [Twitter4j](https://github.com/yusuke/twitter4j) (working with Twitter API)
- - [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator) (Underline indicator for view pager)
  - [Picasso](https://github.com/square/picasso) (loading by url and caching images)
  - [Circular Progress Button](https://github.com/dmytrodanylyk/circular-progress-button) (login button)
+ - [Pager Sliding Tab Strip](https://github.com/jpardogo/PagerSlidingTabStrip) (tabs)
+ - [Floating Action Button](https://github.com/makovkastar/FloatingActionButton) (tweet button)
+ - [About Libraries](https://github.com/mikepenz/AboutLibraries) (open-source libs description)
