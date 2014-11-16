@@ -21,6 +21,7 @@ import android.util.Log;
 
 import com.krossovochkin.kwitter.listeners.GetTimelineListener;
 
+import twitter4j.Paging;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;

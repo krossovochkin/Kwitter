@@ -19,6 +19,8 @@ package com.krossovochkin.kwitter.fragments;
 import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.adapters.ViewPagerAdapter;
 import com.krossovochkin.kwitter.toolbox.Constants;
+import com.melnykov.fab.FloatingActionButton;
 
 import twitter4j.Twitter;
 
@@ -62,18 +65,7 @@ public class MainFragment extends android.support.v4.app.Fragment {
 
         initTwitter();
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        viewPagerAdapter = new ViewPagerAdapter(getActivity(), twitter, getChildFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) getView().findViewById(R.id.pager);
-        viewPager.setAdapter(viewPagerAdapter);
-
-        PagerSlidingTabStrip titleIndicator = (PagerSlidingTabStrip) getView().findViewById(R.id.titles);
-        titleIndicator.setViewPager(viewPager);
-
-        final Button sendTweetButton = (Button) getView().findViewById(R.id.send_tweet_button);
+        final FloatingActionButton sendTweetButton = (FloatingActionButton) getView().findViewById(R.id.fab);
         sendTweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +76,17 @@ public class MainFragment extends android.support.v4.app.Fragment {
                         .commit();
             }
         });
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        viewPagerAdapter = new ViewPagerAdapter(getActivity(), twitter, getChildFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        viewPager = (ViewPager) getView().findViewById(R.id.pager);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        PagerSlidingTabStrip titleIndicator = (PagerSlidingTabStrip) getView().findViewById(R.id.titles);
+        titleIndicator.setViewPager(viewPager);
     }
 
     private void initTwitter() {

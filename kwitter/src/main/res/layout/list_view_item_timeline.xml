@@ -28,7 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/cardTextMarginLeft"
+                android:layout_marginStart="@dimen/cardTextMarginLeft"
                 android:layout_toRightOf="@+id/user_profile_image"
+                android:layout_toEndOf="@+id/user_profile_image"
                 android:lineSpacingMultiplier="1.1"
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>

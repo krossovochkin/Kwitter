@@ -42,6 +42,7 @@ import com.krossovochkin.kwitter.listeners.TweetActionListener;
 import com.krossovochkin.kwitter.tasks.FavoriteAsyncTask;
 import com.krossovochkin.kwitter.tasks.RetweetAsyncTask;
 import com.krossovochkin.kwitter.toolbox.Constants;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.Collections;
 
@@ -62,14 +63,12 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     protected boolean mIsInContextualMode = false;
     protected int mCurrentActionItemIndex = NO_ITEM;
     private ActionMode mCurrentActionMode = null;
-//    private ListView mListView = null;
-//    private TimelineAdapter mAdapter = null;
+
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
     private RecyclerView mRecyclerView;
     private TimelineAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
+    private LinearLayoutManager mLayoutManager;
 
     private class ActionBarCallback implements ActionMode.Callback {
 
@@ -138,7 +137,6 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
         initTwitter();
         initListView();
         sendGetTimelineRequest();
-        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     protected abstract void sendGetTimelineRequest();
@@ -177,10 +175,10 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
         mAdapter = new TimelineAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-//        mAdapter = new TimelineAdapter(getActivity(), null, this);
-//
-//        mListView = (ListView) getView().findViewById(R.id.list_view);
-//        mListView.setAdapter(mAdapter);
+        if (mFab != null) {
+            mFab.attachToRecyclerView(mRecyclerView);
+        }
+
 //        mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 //        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 //            @Override
@@ -195,7 +193,8 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     }
 
     private void refreshListView(ResponseList<Status> statuses) {
-        mAdapter.addAll(statuses);
+        int position = mAdapter.update(statuses);
+        mLayoutManager.scrollToPositionWithOffset(position, 0);
     }
 
     @Override
@@ -242,4 +241,6 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     public void onFavoriteError() {
         Toast.makeText(getActivity(), R.string.error_favorite, Toast.LENGTH_SHORT).show();
     }
+
+    private FloatingActionButton mFab = null;
 }

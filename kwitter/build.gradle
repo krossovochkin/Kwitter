@@ -36,6 +36,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.2.0'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.0'
     compile 'com.tundem.aboutlibraries:library:2.0.3@aar'
-    
-    compile project(':libs:[lib]pagertabstrip')
+
+    compile 'com.jpardogo.materialtabstrip:library:1.0.3'
+    compile 'com.melnykov:floatingactionbutton:1.0.7'
 }

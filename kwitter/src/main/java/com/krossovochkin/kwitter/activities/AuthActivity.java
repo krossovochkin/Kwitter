@@ -27,7 +27,7 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class AuthActivity extends Activity {
 
-    public static final String TAG = AuthActivity.class.getSimpleName();
+    private static final String TAG = AuthActivity.class.getSimpleName();
 
     // Twitter oauth urls
     private static final String URL_TWITTER_AUTH = "auth_url";

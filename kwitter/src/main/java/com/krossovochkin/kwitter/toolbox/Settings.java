@@ -28,7 +28,7 @@ public class Settings {
         editor.putString(ACCESS_TOKEN_KEY, accessToken);
         editor.putString(ACCESS_TOKEN_SECRET_KEY, accessTokenSecret);
         editor.putBoolean(AUTH_DATA_EXISTS, true);
-        editor.commit();
+        editor.apply();
     }
 
 }

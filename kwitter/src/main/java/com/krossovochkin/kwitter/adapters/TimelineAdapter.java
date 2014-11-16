@@ -53,8 +53,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.list_view_item_timeline, viewGroup, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
 
     }
 
@@ -73,8 +72,23 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         return mData.size();
     }
 
-    public void addAll(ResponseList<Status> statuses) {
-        mData.addAll(statuses);
+    public int update(ResponseList<Status> statuses) {
+        int scrollToPosition = 0;
+        if (mData == null || mData.isEmpty()) {
+            mData = statuses;
+            scrollToPosition = 0;
+        } else {
+            int index = statuses.indexOf(mData.get(0));
+            if (index == -1) {
+                mData.addAll(0, statuses);
+                scrollToPosition = 0;
+            } else {
+                mData.addAll(0, statuses.subList(0, index));
+                scrollToPosition = index;
+            }
+        }
+        this.notifyDataSetChanged();
+        return scrollToPosition;
     }
 
     public Status getItem(int position) {
