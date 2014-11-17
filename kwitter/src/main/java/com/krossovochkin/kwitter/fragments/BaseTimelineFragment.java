@@ -60,70 +60,12 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     private static final int NO_ITEM = -1;
 
     protected Twitter twitter = null;
-    protected boolean mIsInContextualMode = false;
-    protected int mCurrentActionItemIndex = NO_ITEM;
-    private ActionMode mCurrentActionMode = null;
 
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
     private RecyclerView mRecyclerView;
     private TimelineAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-
-    private class ActionBarCallback implements ActionMode.Callback {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            if (actionMode.getMenuInflater() != null) {
-                actionMode.getMenuInflater().inflate(R.menu.actions, menu);
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-
-            switch (menuItem.getItemId()) {
-                case R.id.reply:
-                    sendReplyRequest(mCurrentActionItemIndex);
-                    break;
-                case R.id.retweet:
-                    sendRetweetRequest(mCurrentActionItemIndex);
-                    break;
-                case R.id.favorite:
-                    sendFavoriteRequest(mCurrentActionItemIndex);
-                    break;
-                default:
-                    break;
-            }
-
-            if (mIsInContextualMode) {
-                if (mCurrentActionMode != null) {
-                    mCurrentActionMode.finish();
-                    mCurrentActionMode = null;
-                }
-
-                mIsInContextualMode = false;
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode actionMode) {
-            if (mCurrentActionItemIndex != NO_ITEM) {
-                //TODO: uncomment
-//                mListView.setItemChecked(mCurrentActionItemIndex, false);
-                mCurrentActionItemIndex = NO_ITEM;
-            }
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -173,24 +115,12 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new TimelineAdapter();
+        mAdapter = new TimelineAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
         if (mFab != null) {
             mFab.attachToRecyclerView(mRecyclerView);
         }
-
-//        mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-//        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                mCurrentActionMode = getActivity().startActionMode(new ActionBarCallback());
-//                mIsInContextualMode = true;
-//                mListView.setItemChecked(position, true);
-//                mCurrentActionItemIndex = position;
-//                return true;
-//            }
-//        });
     }
 
     private void refreshListView(ResponseList<Status> statuses) {

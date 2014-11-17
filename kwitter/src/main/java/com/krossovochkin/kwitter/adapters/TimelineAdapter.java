@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,6 +50,8 @@ public class TimelineAdapter extends RecyclerView.Adapter {
 
     private List<Status> mData = new ArrayList<Status>();
 
+    private TweetActionListener mListener = null;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext())
@@ -64,7 +67,8 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         holder.setText(status.getText());
         holder.setImage(status.getUser().getBiggerProfileImageURLHttps());
 
-        ((ViewHolder) viewHolder).setText(mData.get(position).getText());
+        holder.setText(mData.get(position).getText());
+        holder.initButtons(mListener, position);
     }
 
     @Override
@@ -97,18 +101,26 @@ public class TimelineAdapter extends RecyclerView.Adapter {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private View mView;
+        private TextView mStatusText;
+        private ImageView mProfileImage;
+        private ImageButton mReplyButton;
+        private ImageButton mRetweetButton;
+        private ImageButton mFavoriteButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
+
+            mStatusText = (TextView) itemView.findViewById(R.id.status_text_view);
+            mProfileImage = (ImageView) itemView.findViewById(R.id.user_profile_image);
+            mReplyButton = (ImageButton) itemView.findViewById(R.id.reply);
+            mRetweetButton = (ImageButton) itemView.findViewById(R.id.retweet);
+            mFavoriteButton = (ImageButton) itemView.findViewById(R.id.favorite);
         }
 
         public void setText(String text) {
-            final TextView statusTextView = (TextView) mView.findViewById(R.id.status_text_view);
             int startPosition = text.indexOf('@');
             if (startPosition < 0) {
-                statusTextView.setText(text);
+                mStatusText.setText(text);
             } else {
                 SpannableString spannableString = new SpannableString(text);
                 do {
@@ -118,20 +130,45 @@ public class TimelineAdapter extends RecyclerView.Adapter {
                     if (endPosition == -1) {
                         endPosition = spannableString.length();
                     }
-                    spannableString.setSpan(new ForegroundColorSpan(mView.getContext().getResources().getColor(R.color.colorSecondaryDark)), startPosition, endPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableString.setSpan(new ForegroundColorSpan(mStatusText.getContext().getResources().getColor(R.color.colorSecondaryDark)), startPosition, endPosition, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     startPosition = text.indexOf('@', endPosition);
                 } while (startPosition > 0);
-                statusTextView.setText(spannableString);
+                mStatusText.setText(spannableString);
             }
         }
 
         public void setImage(String url) {
-            final ImageView profileImage = (ImageView) mView.findViewById(R.id.user_profile_image);
-            Picasso.with(mView.getContext()).load(url).into(profileImage);
+            Picasso.with(mProfileImage.getContext()).load(url).into(mProfileImage);
+        }
+
+        public void initButtons(final TweetActionListener listener, final int position) {
+            if (listener == null) {
+                return;
+            }
+            mReplyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.sendReplyRequest(position);
+                }
+            });
+            mRetweetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.sendRetweetRequest(position);
+                }
+            });
+            mFavoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.sendFavoriteRequest(position);
+                }
+            });
         }
     }
 
-    public TimelineAdapter() {
+    public TimelineAdapter(TweetActionListener listener) {
         super();
+
+        mListener = listener;
     }
 }
