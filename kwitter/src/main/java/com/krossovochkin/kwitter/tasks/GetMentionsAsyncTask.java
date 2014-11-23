@@ -16,9 +16,11 @@
 
 package com.krossovochkin.kwitter.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.krossovochkin.kwitter.listeners.GetTimelineListener;
+import com.krossovochkin.kwitter.toolbox.FileManager;
 
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
@@ -31,14 +33,16 @@ public class GetMentionsAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
 
     public static final String TAG = GetMentionsAsyncTask.class.getSimpleName();
 
+    private Context mContext;
     private Twitter twitter;
     private GetTimelineListener getTimelineListener;
     private ResponseList<twitter4j.Status> statuses;
     private TwitterException exception;
 
-    public GetMentionsAsyncTask(Twitter twitter, GetTimelineListener getTimelineListener) {
+    public GetMentionsAsyncTask(Context context, Twitter twitter, GetTimelineListener getTimelineListener) {
         super();
 
+        mContext = context;
         this.twitter = twitter;
         this.getTimelineListener = getTimelineListener;
     }
@@ -51,6 +55,7 @@ public class GetMentionsAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
     private boolean getTimeline() {
         try {
             this.statuses = twitter.getMentionsTimeline();
+            FileManager.saveStatuses(mContext, statuses, FileManager.FOLDER_NAME_MENTIONS_TIMELINE);
             return true;
         } catch (TwitterException e) {
             this.exception = e;

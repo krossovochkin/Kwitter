@@ -16,6 +16,7 @@
 
 package com.krossovochkin.kwitter.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.krossovochkin.kwitter.tasks.GetTimelineAsyncTask;
@@ -42,7 +43,7 @@ public class TimelineFragment extends BaseTimelineFragment {
         // instantiate only with newInstance() method
     }
 
-    protected void sendGetTimelineRequest() {
-        new GetTimelineAsyncTask(twitter, this).execute();
+    protected void sendGetTimelineRequest(Context context) {
+        new GetTimelineAsyncTask(context, twitter, this).execute();
     }
 }

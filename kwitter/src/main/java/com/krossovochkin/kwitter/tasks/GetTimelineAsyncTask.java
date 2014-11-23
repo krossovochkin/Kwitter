@@ -16,10 +16,12 @@
 
 package com.krossovochkin.kwitter.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.krossovochkin.kwitter.listeners.GetTimelineListener;
+import com.krossovochkin.kwitter.toolbox.FileManager;
 
 import twitter4j.Paging;
 import twitter4j.ResponseList;
@@ -34,14 +36,15 @@ public class GetTimelineAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
 
     public static final String TAG = GetTimelineAsyncTask.class.getSimpleName();
 
+    private Context mContext;
     private Twitter twitter;
     private GetTimelineListener getTimelineListener;
     private ResponseList<twitter4j.Status> statuses;
     private TwitterException exception;
 
-    public GetTimelineAsyncTask(Twitter twitter, GetTimelineListener getTimelineListener) {
+    public GetTimelineAsyncTask(Context context, Twitter twitter, GetTimelineListener getTimelineListener) {
         super();
-
+        mContext = context;
         this.twitter = twitter;
         this.getTimelineListener = getTimelineListener;
     }
@@ -54,6 +57,7 @@ public class GetTimelineAsyncTask extends AsyncTask<Object, Boolean, Boolean> {
     private boolean getTimeline() {
         try {
             this.statuses = twitter.getHomeTimeline();
+            FileManager.saveStatuses(mContext, statuses, FileManager.FOLDER_NAME_HOME_TIMELINE);
             return true;
         } catch (TwitterException e) {
             this.exception = e;

@@ -16,6 +16,7 @@
 
 package com.krossovochkin.kwitter.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.krossovochkin.kwitter.tasks.GetMentionsAsyncTask;
@@ -43,7 +44,7 @@ public class MentionsFragment extends BaseTimelineFragment {
         // instantiate only with newInstance() method
     }
 
-    protected void sendGetTimelineRequest() {
-        new GetMentionsAsyncTask(twitter, this).execute();
+    protected void sendGetTimelineRequest(Context context) {
+        new GetMentionsAsyncTask(context, twitter, this).execute();
     }
 }

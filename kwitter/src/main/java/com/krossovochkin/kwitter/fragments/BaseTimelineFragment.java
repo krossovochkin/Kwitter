@@ -16,21 +16,15 @@
 
 package com.krossovochkin.kwitter.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.krossovochkin.kwitter.R;
@@ -42,14 +36,17 @@ import com.krossovochkin.kwitter.listeners.TweetActionListener;
 import com.krossovochkin.kwitter.tasks.FavoriteAsyncTask;
 import com.krossovochkin.kwitter.tasks.RetweetAsyncTask;
 import com.krossovochkin.kwitter.toolbox.Constants;
+import com.krossovochkin.kwitter.toolbox.FileManager;
 import com.melnykov.fab.FloatingActionButton;
 
-import java.util.Collections;
+import java.util.List;
 
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by Vasya Drobushkov <vasya.drobushkov@gmail.com> on 23.02.14.
@@ -75,13 +72,18 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initTwitter();
         initListView();
-        sendGetTimelineRequest();
+
+        List<Status> statuses = FileManager.loadStatuses(getActivity(), getStatusesFolder());
+        if (statuses == null || statuses.isEmpty()) {
+            sendGetTimelineRequest(getActivity());
+        } else {
+            mAdapter.update(statuses);
+        }
     }
 
-    protected abstract void sendGetTimelineRequest();
+    protected abstract void sendGetTimelineRequest(Context context);
 
     private void initTwitter() {
         if(getArguments() != null) {
@@ -130,7 +132,11 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
 
     @Override
     public void onRefresh() {
-        sendGetTimelineRequest();
+        if (getActivity() != null) {
+            sendGetTimelineRequest(getActivity());
+        } else {
+            // TODO: do something
+        }
     }
 
     @Override
@@ -174,4 +180,14 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     }
 
     private FloatingActionButton mFab = null;
+
+    private String getStatusesFolder() {
+        if (this instanceof TimelineFragment) {
+            return FileManager.FOLDER_NAME_HOME_TIMELINE;
+        } else if (this instanceof MentionsFragment) {
+            return FileManager.FOLDER_NAME_MENTIONS_TIMELINE;
+        } else {
+            return null;
+        }
+    }
 }

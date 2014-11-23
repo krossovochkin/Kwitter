@@ -76,7 +76,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         return mData.size();
     }
 
-    public int update(ResponseList<Status> statuses) {
+    public int update(List<Status> statuses) {
         int scrollToPosition = 0;
         if (mData == null || mData.isEmpty()) {
             mData = statuses;

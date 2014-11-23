@@ -145,7 +145,9 @@ public class MainActivity extends ActionBarActivity implements TwitterActionList
                     .setOAuthConsumerKey(getString(R.string.twitter_consumer_key))
                     .setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret))
                     .setOAuthAccessToken(Settings.getString(this, Settings.ACCESS_TOKEN_KEY))
-                    .setOAuthAccessTokenSecret(Settings.getString(this, Settings.ACCESS_TOKEN_SECRET_KEY));
+                    .setOAuthAccessTokenSecret(Settings.getString(this, Settings.ACCESS_TOKEN_SECRET_KEY))
+                    .setJSONStoreEnabled(true);
+
 
             TwitterFactory tf = new TwitterFactory(cb.build());
             twitter = tf.getInstance();
