@@ -5,4 +5,5 @@
     <color name="colorSecondary">#b39ddb</color>
     <color name="colorSecondaryDark">#673ab7</color>
     <color name="colorAccent">#673ab7</color>
+    <color name="card_divider">@android:color/darker_gray</color>
 </resources>

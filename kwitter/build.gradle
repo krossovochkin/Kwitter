@@ -42,6 +42,7 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.0'
 
     compile 'com.squareup.picasso:picasso:2.2.0'
+    compile 'com.makeramen:roundedimageview:1.5.0'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.0'
     compile 'com.tundem.aboutlibraries:library:2.0.3@aar'
 

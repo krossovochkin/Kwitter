@@ -33,7 +33,9 @@ import android.widget.TextView;
 
 import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.listeners.TweetActionListener;
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +68,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
         Status status = mData.get(position);
         holder.setText(status.getText());
         holder.setImage(status.getUser().getBiggerProfileImageURLHttps());
-
+        holder.setUserName(status.getUser().getScreenName());
         holder.setText(mData.get(position).getText());
         holder.initButtons(mListener, position);
     }
@@ -102,6 +104,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mStatusText;
+        private TextView mUserName;
         private ImageView mProfileImage;
         private ImageButton mReplyButton;
         private ImageButton mRetweetButton;
@@ -111,6 +114,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
             super(itemView);
 
             mStatusText = (TextView) itemView.findViewById(R.id.status_text_view);
+            mUserName = (TextView) itemView.findViewById(R.id.user_name);
             mProfileImage = (ImageView) itemView.findViewById(R.id.user_profile_image);
             mReplyButton = (ImageButton) itemView.findViewById(R.id.reply);
             mRetweetButton = (ImageButton) itemView.findViewById(R.id.retweet);
@@ -135,6 +139,10 @@ public class TimelineAdapter extends RecyclerView.Adapter {
                 } while (startPosition > 0);
                 mStatusText.setText(spannableString);
             }
+        }
+
+        public void setUserName(String userName) {
+            mUserName.setText(userName);
         }
 
         public void setImage(String url) {
