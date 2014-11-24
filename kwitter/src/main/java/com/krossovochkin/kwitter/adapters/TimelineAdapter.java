@@ -50,7 +50,7 @@ public class TimelineAdapter extends RecyclerView.Adapter {
 
     public static final String TAG = TimelineAdapter.class.getSimpleName();
 
-    private List<Status> mData = new ArrayList<Status>();
+    private List<Status> mData = new ArrayList<>();
 
     private TweetActionListener mListener = null;
 

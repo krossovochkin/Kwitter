@@ -33,6 +33,7 @@ import com.krossovochkin.kwitter.R;
 import com.krossovochkin.kwitter.listeners.TwitterActionListener;
 import com.krossovochkin.kwitter.toolbox.Constants;
 import com.krossovochkin.kwitter.toolbox.KeyboardHelper;
+import com.melnykov.fab.FloatingActionButton;
 
 import twitter4j.Status;
 import twitter4j.UserMentionEntity;
@@ -86,7 +87,7 @@ public class SendTweetFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         final EditText tweetEditText = (EditText) getView().findViewById(R.id.tweet_edit_text);
-        final Button sendTweetButton = (Button) getView().findViewById(R.id.send_tweet_button);
+        final FloatingActionButton sendTweetButton = (FloatingActionButton) getView().findViewById(R.id.send_tweet_button);
         final TextView symbolCounterTextView = (TextView) getView().findViewById(R.id.char_counter_text_view);
 
         tweetEditText.addTextChangedListener(new TextWatcher() {

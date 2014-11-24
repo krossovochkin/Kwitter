@@ -107,7 +107,7 @@ public class FileManager {
             return null;
         }
 
-        List<Status> statuses = new ArrayList<Status>();
+        List<Status> statuses = new ArrayList<>();
 
         for (File file : files) {
             try {
