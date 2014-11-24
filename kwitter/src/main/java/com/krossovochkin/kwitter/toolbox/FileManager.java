@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import twitter4j.ResponseList;
@@ -114,12 +116,21 @@ public class FileManager {
                 if (status != null) {
                     statuses.add(status);
                 }
-            } catch (IOException e) {
-                // do nothing
-            } catch (TwitterException e) {
+            } catch (IOException | TwitterException e) {
                 // do nothing
             }
         }
+
+        Collections.sort(statuses, new Comparator<Status>() {
+            @Override
+            public int compare(Status lhs, Status rhs) {
+                if (lhs == rhs) {
+                    return 0;
+                } else {
+                    return rhs.getCreatedAt().compareTo(lhs.getCreatedAt());
+                }
+            }
+        });
 
         return statuses;
     }

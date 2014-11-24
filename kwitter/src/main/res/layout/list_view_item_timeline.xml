@@ -6,13 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
-    android:paddingLeft="@dimen/card_small_padding"
-    android:paddingStart="@dimen/card_small_padding"
-    android:paddingRight="@dimen/card_small_padding"
-    android:paddingEnd="@dimen/card_small_padding"
     android:paddingTop="@dimen/card_very_small_padding"
-    android:paddingBottom="@dimen/card_very_small_padding"
-    >
+    android:paddingBottom="@dimen/card_very_small_padding">
     <!-- A CardView that contains a TextView -->
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
@@ -44,15 +39,14 @@
                         android:layout_width="@dimen/card_user_avatar_size"
                         android:layout_height="@dimen/card_user_avatar_size"
                         android:src="@drawable/ic_launcher"
-                        android:layout_marginRight="@dimen/card_padding"/>
+                        android:layout_marginRight="@dimen/card_padding"
+                        android:layout_marginEnd="@dimen/card_padding"/>
 
                     <TextView
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/user_profile_image"
-                        android:layout_toRightOf="@+id/user_profile_image"
-                        android:text="krossovochkin"
+                        tools:text="krossovochkin"
                         android:textSize="24sp"/>
 
                 </LinearLayout>
@@ -62,8 +56,8 @@
                     android:id="@+id/status_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:text="jlkjsglkjsgk sglkj slgk gkljg dg dklfg dflg dldfkl gdldlg jdflgk dfgj dlg jdlkg dl gfdl gf"
+                    android:textSize="16sp"
+                    tools:text="jlkjsglkjsgk sglkj slgk gkljg dg dklfg dflg dldfkl gdldlg jdflgk dfgj dlg jdlkg dl gfdl gf"
                     />
             </LinearLayout>
 

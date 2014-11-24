@@ -7,15 +7,21 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/card_very_small_padding"
-        android:paddingBottom="@dimen/card_very_small_padding">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:paddingTop="@dimen/card_very_small_padding"
+            android:paddingBottom="@dimen/card_very_small_padding"
+            android:paddingLeft="@dimen/card_small_padding"
+            android:paddingStart="@dimen/card_small_padding"
+            android:paddingRight="@dimen/card_small_padding"
+            android:paddingEnd="@dimen/card_small_padding"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>
