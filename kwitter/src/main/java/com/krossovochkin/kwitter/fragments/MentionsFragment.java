@@ -20,7 +20,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.krossovochkin.kwitter.tasks.GetMentionsAsyncTask;
-import com.krossovochkin.kwitter.tasks.GetTimelineAsyncTask;
 import com.krossovochkin.kwitter.toolbox.Constants;
 
 import twitter4j.Twitter;
@@ -45,6 +44,6 @@ public class MentionsFragment extends BaseTimelineFragment {
     }
 
     protected void sendGetTimelineRequest(Context context) {
-        new GetMentionsAsyncTask(context, twitter, this).execute();
+        new GetMentionsAsyncTask(context, mTwitter, this).execute();
     }
 }

@@ -33,24 +33,23 @@ import twitter4j.Twitter;
  */
 public class ViewPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
 
-    private Context context;
-    private Twitter twitter;
+    private Context mContext;
+    private Twitter mTwitter;
 
     public ViewPagerAdapter(Context context, Twitter twitter, FragmentManager fm) {
         super(fm);
 
-        this.context = context;
-        this.twitter = twitter;
+        this.mContext = context;
+        this.mTwitter = twitter;
     }
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position) {
             case 0:
-                return TimelineFragment.newInstance(twitter);
+                return TimelineFragment.newInstance(mTwitter);
             case 1:
-                return MentionsFragment.newInstance(twitter);
+                return MentionsFragment.newInstance(mTwitter);
             default:
                 return null;
         }
@@ -63,13 +62,13 @@ public class ViewPagerAdapter extends android.support.v4.app.FragmentPagerAdapte
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Locale l = Locale.getDefault();
         switch (position) {
             case 0:
-                return context.getString(R.string.title_timeline).toUpperCase(l);
+                return mContext.getString(R.string.title_timeline);
             case 1:
-                return context.getString(R.string.title_mentions).toUpperCase(l);
+                return mContext.getString(R.string.title_mentions);
+            default:
+                return null;
         }
-        return null;
     }
 }

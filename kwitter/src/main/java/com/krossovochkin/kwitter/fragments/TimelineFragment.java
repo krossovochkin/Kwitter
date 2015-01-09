@@ -44,6 +44,6 @@ public class TimelineFragment extends BaseTimelineFragment {
     }
 
     protected void sendGetTimelineRequest(Context context) {
-        new GetTimelineAsyncTask(context, twitter, this).execute();
+        new GetTimelineAsyncTask(context, mTwitter, this).execute();
     }
 }

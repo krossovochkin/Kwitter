@@ -17,14 +17,10 @@
 package com.krossovochkin.kwitter.fragments;
 
 import android.os.Bundle;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.krossovochkin.kwitter.R;
@@ -41,9 +37,8 @@ public class MainFragment extends android.support.v4.app.Fragment {
 
     public static final String TAG = MainFragment.class.getSimpleName();
 
-    private Twitter twitter;
-    private ViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter;
+    private Twitter mTwitter;
+    private ViewPager mViewPager;
 
     public static MainFragment newInstance(Twitter twitter) {
         MainFragment fragment = new MainFragment();
@@ -65,33 +60,20 @@ public class MainFragment extends android.support.v4.app.Fragment {
 
         initTwitter();
 
-        final FloatingActionButton sendTweetButton = (FloatingActionButton) getView().findViewById(R.id.fab);
-        sendTweetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.slide_up, R.anim.fade_out, R.anim.fade_in, R.anim.slide_down)
-                        .addToBackStack(SendTweetFragment.TAG)
-                        .add(R.id.content_frame, SendTweetFragment.newInstance(), SendTweetFragment.TAG)
-                        .commit();
-            }
-        });
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        viewPagerAdapter = new ViewPagerAdapter(getActivity(), twitter, getChildFragmentManager());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity(), mTwitter, getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (ViewPager) getView().findViewById(R.id.pager);
-        viewPager.setAdapter(viewPagerAdapter);
+        mViewPager.setAdapter(viewPagerAdapter);
 
         PagerSlidingTabStrip titleIndicator = (PagerSlidingTabStrip) getView().findViewById(R.id.titles);
-        titleIndicator.setViewPager(viewPager);
+        titleIndicator.setViewPager(mViewPager);
     }
 
     private void initTwitter() {
         if(getArguments() != null) {
-            twitter = (Twitter) getArguments().getSerializable(Constants.TWITTER_KEY);
+            mTwitter = (Twitter) getArguments().getSerializable(Constants.TWITTER_KEY);
         } else {
             throw new IllegalArgumentException("initTwitter in MainFragment failed, no such serializable in arguments");
         }
@@ -99,6 +81,23 @@ public class MainFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        final FloatingActionButton sendTweetButton = (FloatingActionButton) view.findViewById(R.id.fab);
+        sendTweetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSendTweetFragment();
+            }
+        });
+
+        mViewPager = (ViewPager) view.findViewById(R.id.pager);
+        return view;
+    }
+
+    private void showSendTweetFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .addToBackStack(SendTweetFragment.TAG)
+                .replace(R.id.content_frame, SendTweetFragment.newInstance(), SendTweetFragment.TAG)
+                .commit();
     }
 }

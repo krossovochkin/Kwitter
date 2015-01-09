@@ -13,13 +13,15 @@
         app:pstsIndicatorColor="@color/colorSecondaryDark"
         app:pstsUnderlineColor="@color/colorSecondaryDark"
         app:pstsDividerColor="@color/colorSecondaryDark"
-        app:pstsShouldExpand="true"/>
+        app:pstsShouldExpand="true"
+        app:pstsTextAllCaps="true"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_below="@+id/titles"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"

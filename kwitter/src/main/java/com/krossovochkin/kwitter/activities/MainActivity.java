@@ -21,7 +21,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -55,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements TwitterActionList
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
-    private Twitter twitter;
+    private Twitter mTwitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,23 +75,22 @@ public class MainActivity extends ActionBarActivity implements TwitterActionList
 
     private void showMainFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, MainFragment.newInstance(twitter), MainFragment.TAG)
+                .replace(R.id.content_frame, MainFragment.newInstance(mTwitter), MainFragment.TAG)
                 .commit();
     }
 
     @Override
     public void sendTweetRequest(String tweet) {
-        new SendTweetAsyncTask(twitter, tweet, this).execute();
+        new SendTweetAsyncTask(mTwitter, tweet, this).execute();
     }
 
     @Override
     public void sendReplyRequest(Status statusToReply, String tweet) {
-        new SendReplyAsyncTask(twitter, tweet, statusToReply.getId(), this).execute();
+        new SendReplyAsyncTask(mTwitter, tweet, statusToReply.getId(), this).execute();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -150,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements TwitterActionList
 
 
             TwitterFactory tf = new TwitterFactory(cb.build());
-            twitter = tf.getInstance();
+            mTwitter = tf.getInstance();
         } else {
             startActivity(new Intent(this, AuthActivity.class));
             finish();

@@ -46,17 +46,13 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-import static junit.framework.Assert.assertEquals;
-
 /**
  * Created by Vasya Drobushkov <vasya.drobushkov@gmail.com> on 23.02.14.
  */
 public abstract class BaseTimelineFragment extends Fragment implements GetTimelineListener, TweetActionListener,
         RetweetListener, FavoriteListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private static final int NO_ITEM = -1;
-
-    protected Twitter twitter = null;
+    protected Twitter mTwitter = null;
 
     private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
@@ -87,7 +83,7 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
 
     private void initTwitter() {
         if(getArguments() != null) {
-            twitter = (Twitter) getArguments().getSerializable(Constants.TWITTER_KEY);
+            mTwitter = (Twitter) getArguments().getSerializable(Constants.TWITTER_KEY);
         }
     }
 
@@ -142,21 +138,19 @@ public abstract class BaseTimelineFragment extends Fragment implements GetTimeli
     @Override
     public void sendReplyRequest(int statusToReplyIndex) {
         getActivity().getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_up, R.anim.fade_out, R.anim.fade_in, R.anim.slide_down)
                 .addToBackStack(SendTweetFragment.TAG)
-                .add(R.id.content_frame, SendTweetFragment.newInstance(mAdapter.getItem(statusToReplyIndex)))
+                .replace(R.id.content_frame, SendTweetFragment.newInstance(mAdapter.getItem(statusToReplyIndex)))
                 .commit();
     }
 
     @Override
     public void sendRetweetRequest(int statusToRetweetIndex) {
-
-        new RetweetAsyncTask(twitter, mAdapter.getItem(statusToRetweetIndex).getId(), this).execute();
+        new RetweetAsyncTask(mTwitter, mAdapter.getItem(statusToRetweetIndex).getId(), this).execute();
     }
 
     @Override
     public void sendFavoriteRequest(int statusToFavoriteIndex) {
-        new FavoriteAsyncTask(twitter, mAdapter.getItem(statusToFavoriteIndex).getId(), this).execute();
+        new FavoriteAsyncTask(mTwitter, mAdapter.getItem(statusToFavoriteIndex).getId(), this).execute();
     }
 
     @Override
