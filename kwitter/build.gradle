@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -31,24 +31,24 @@ android {
 }
 
 dependencies {
-    compile 'org.twitter4j:twitter4j-core:4.0.2'
+    compile 'org.twitter4j:twitter4j-core:4.0.3'
 
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.android.support:cardview-v7:21.0.0'
-    compile 'com.android.support:palette-v7:21.0.0'
-    compile 'com.android.support:recyclerview-v7:21.0.0'
-    compile 'com.android.support:support-annotations:21.0.0'
-    compile 'com.android.support:support-v13:21.0.0'
-    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:cardview-v7:22.1.1'
+    compile 'com.android.support:palette-v7:22.1.1'
+    compile 'com.android.support:recyclerview-v7:22.1.1'
+    compile 'com.android.support:support-annotations:22.1.1'
+    compile 'com.android.support:support-v13:22.1.1'
+    compile 'com.android.support:support-v4:22.1.1'
 
-    compile 'com.squareup.picasso:picasso:2.2.0'
-    compile 'com.makeramen:roundedimageview:1.5.0'
-    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.0'
-    compile 'com.tundem.aboutlibraries:library:2.0.3@aar'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.makeramen:roundedimageview:2.0.1'
+    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+    compile 'com.tundem.aboutlibraries:library:4.1.1'
 
-    compile 'com.jpardogo.materialtabstrip:library:1.0.3'
-    compile 'com.melnykov:floatingactionbutton:1.0.7'
+    compile 'com.jpardogo.materialtabstrip:library:1.0.9'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
 
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'org.apache.commons:commons-lang3:3.4'
 }

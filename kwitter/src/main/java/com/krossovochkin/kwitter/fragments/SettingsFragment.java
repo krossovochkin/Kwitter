@@ -62,10 +62,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         //Pass your theme (OPTIONAL)
         i.putExtra(Libs.BUNDLE_THEME, R.style.AppTheme);
-        //Pass a custom accent color (OPTIONAL)
-        i.putExtra(Libs.BUNDLE_ACCENT_COLOR, getResources().getColor(R.color.colorSecondary));
-        //Pass the information if it should use the Translucent decor (OPTIONAL) -> requires ACCENT_COLOR
-        i.putExtra(Libs.BUNDLE_TRANSLUCENT_DECOR, true);
 
         startActivity(i);
     }
