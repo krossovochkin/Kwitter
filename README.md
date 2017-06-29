@@ -1,3 +1,6 @@
+DEPRECATED
+=========
+
 # Kwitter – social client with material like design #
 
 # Overview #
